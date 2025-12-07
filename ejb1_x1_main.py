@@ -50,22 +50,52 @@ from util_package.text_manager import TEXT, is_newline, is_space, remove_punctua
 
 def find_largest_word(text):
     # Write here your code
-    pass                
+    words = extract_words(text)
+    largest = ""
+    for w in words:
+        if len(w) > len(largest):
+            largest = w
+    return largest                
 
 def is_palindrome_word(word):
     # Write here your code
-    pass
+    word = remove_punctuation_marks(word)
+    if len(word) <= 1:
+        return True
+    if word[0].lower() != word[-1].lower():
+        return False
+    return is_palindrome_word(word[1:-1])
     
 
 
 def count_palindrome_words(text):
     # Write here your code
-    pass
+    words = extract_words(text)
+    count = 0
+    for w in words:
+        if is_palindrome_word(w):
+            count += 1
+    return count
+
 
 
 def find_size_largest_sentence(text, filter):
     # Write here your code
-    pass
+    sentences = []
+    current = ""
+    for ch in text:
+        if is_newline(ch):
+            sentences.append(current)
+            current = ""
+        else:
+            current += ch
+    if current != "":
+        sentences.append(current)
+    filtered = [s for s in sentences if filter in s]
+    if len(filtered) == 0:
+        raise ValueError("No existe ninguna oración con ese filtro.")
+    longest = max(filtered, key=len)
+    return len(longest)
 
 
 # Si quieres probar tu código, descomenta las siguientes líneas y ejecuta el script
